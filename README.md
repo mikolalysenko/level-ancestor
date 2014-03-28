@@ -1,0 +1,42 @@
+level-ancestor
+==============
+Preprocesses a tree encoded as a JSON object so that ancestor queries can be answered in O(1) time.  Takes O(n log(n)) space and preprocessing time.
+
+# Example
+
+```javascript
+var preprocessTree = require("level-ancestor")
+
+var tree = {}
+
+var ancestor = preprocessTree(tree)
+```
+
+# Install
+
+```
+npm install level-ancestor
+```
+
+# API
+
+### `var ancestor = require("level-ancestor")(tree)`
+Creates an ancestor query data structure for the given JSON tree
+
+* `tree` is the root of a tree-like JSON object
+
+**Returns** A function `ancestor` for answering `ancestor` queries on `tree`
+
+### `ancestor(node, k)`
+Finds the `k`th ancestor of `node` in the tree.  For example, `ancestor(node,1)` is the parent of `node`, `ancestor(node,2)` is the grand parent, and so on.
+
+* `node` is a node in the tree
+* `k` is the ancestor to query
+
+**Returns** The `k`th ancestor of `node`
+
+### `ancestor.rebuild()`
+Rebuilds the data structure on `tree`.  You must call this if the tree changes.
+
+# Credits
+(c) 2014 Mikola Lysenko. MIT License
