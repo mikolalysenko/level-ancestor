@@ -1,0 +1,31 @@
+{
+  "name": "level-ancestor",
+  "version": "0.0.0",
+  "description": "Finds the kth ancestor of a node in a JSON tree",
+  "main": "level-ancestor.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mikolalysenko/level-ancestor.git"
+  },
+  "keywords": [
+    "level",
+    "ancestor",
+    "parent",
+    "grandparent",
+    "json",
+    "object",
+    "tree"
+  ],
+  "author": "Mikola Lysenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikolalysenko/level-ancestor/issues"
+  },
+  "homepage": "https://github.com/mikolalysenko/level-ancestor"
+}
