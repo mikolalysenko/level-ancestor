@@ -3,6 +3,7 @@
 module.exports = preprocessTreeLevelAncestor
 
 var weakMap = typeof WeakMap === "undefined" ? require("weakmap") : WeakMap
+var bits = require("bit-twiddle")
 
 function LadderEntry(ladder, offset) {
   this.ladder = ladder
@@ -17,7 +18,7 @@ function preprocessTreeLevelAncestor(root) {
     var nodes = []
     var parents = []
     var depths = []
-    
+
     function visit(node, parent, depth) {
       var idx = parents.length
       nodes.push(node)
@@ -25,7 +26,7 @@ function preprocessTreeLevelAncestor(root) {
       depths.push([depth, idx])
       Object.keys(node).forEach(function(id) {
         var child = node[id]
-        if(typeof child === "object") {
+        if((typeof child === "object") && (child !== null)) {
           visit(child, idx, depth+1)
         }
       })
@@ -34,7 +35,7 @@ function preprocessTreeLevelAncestor(root) {
 
     //Sort nodes by depth
     depths.sort(function(a, b) {
-      return a[0]-b[0]
+      return b[0]-a[0]
     })
 
     //Compute ladder decomposition by walking up nodes from bottom
@@ -71,23 +72,23 @@ function preprocessTreeLevelAncestor(root) {
       var nodeLadder = path.map(function(idx) {
         return nodes[idx]
       })
-      for(var i=0; i<count; ++i) {
-        nodeLadders[i] = new LadderEntry(nodeLadder, i)
+      for(var j=0; j<count; ++j) {
+        nodeLadders[path[j]] = new LadderEntry(nodeLadder, j)
       }
     }
 
     //Find level ancestor by jumping up ladder
     function jumpLadder(idx, step) {
       if(step === 0) {
-        return nodeLadders[idx]
+        return idx
       }
       if(parents[idx] < 0) {
-        return null
+        return -1
       }
       var ladder = ladders[idx]
       var offset = nodeLadders[idx].offset
       var target = Math.min(ladder.length-1, offset + step)
-      return jumpLadder(ladder[ladder.length-1], step - (target-offset))
+      return jumpLadder(ladder[target], step - (target-offset))
     }
 
     //Compute jump table for each node
@@ -100,11 +101,12 @@ function preprocessTreeLevelAncestor(root) {
       var jumps = []
       var idx=i
       for(var j=1,k=0; ; j*=2) {
-        var ancestor = jumpLadder(idx, j-k)
-        if(!ancestor) {
+        idx = jumpLadder(idx, j-k)
+        if(idx < 0) {
           break
         }
         k = j
+        jumps.push(nodeLadders[idx])
       }
       jumpTable.set(nodes[i], jumps)
     }
@@ -124,7 +126,7 @@ function preprocessTreeLevelAncestor(root) {
     }
     var ladder = jumps[level]
     var aindex = ladder.offset + k - (1<<level)
-    if(aindex > ladder.ladder.length) {
+    if(aindex >= ladder.ladder.length) {
       return null
     }
     return ladder.ladder[aindex]

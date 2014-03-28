@@ -27,5 +27,12 @@
   "bugs": {
     "url": "https://github.com/mikolalysenko/level-ancestor/issues"
   },
-  "homepage": "https://github.com/mikolalysenko/level-ancestor"
+  "homepage": "https://github.com/mikolalysenko/level-ancestor",
+  "dependencies": {
+    "weakmap": "0.0.6",
+    "bit-twiddle": "0.0.2"
+  },
+  "devDependencies": {
+    "tape": "^2.12.0"
+  }
 }

@@ -7,9 +7,24 @@ Preprocesses a tree encoded as a JSON object so that ancestor queries can be ans
 ```javascript
 var preprocessTree = require("level-ancestor")
 
-var tree = {}
+//Construct some random tree object
+var tree = {
+  x: {
+    y: {
+      z: {
+        foo: []
+      }
+    }
+  }
+}
 
+//Preprocess and build data structure
 var ancestor = preprocessTree(tree)
+
+//Now we can answer ancestor predicates in constant time!
+var assert = require("assert")
+
+assert.ok(ancestor(tree.x.y.z.foo, 3) === tree.x)
 ```
 
 # Install
