@@ -1,6 +1,6 @@
 {
   "name": "level-ancestor",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Finds the kth ancestor of a node in a JSON tree",
   "main": "level-ancestor.js",
   "directories": {
