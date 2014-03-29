@@ -1,6 +1,6 @@
 level-ancestor
 ==============
-Preprocesses a tree encoded as a JSON object so that ancestor queries can be answered in O(1) time.  Takes O(n log(n)) space and preprocessing time.
+Preprocesses a tree encoded as a JSON object so that [level ancestor](http://en.wikipedia.org/wiki/Level_ancestor_problem) queries can be answered in O(1) time.  Takes O(n log(n)) space and preprocessing time.
 
 # Example
 
@@ -35,10 +35,17 @@ npm install level-ancestor
 
 # API
 
-### `var ancestor = require("level-ancestor")(tree)`
+### `var ancestor = require("level-ancestor")(tree[,filter])`
 Creates an ancestor query data structure for the given JSON tree
 
 * `tree` is the root of a tree-like JSON object
+* `filter(node,child)` is an optional function, which if passed determines which subtrees the augmentation is applied to.  The interpretation of these arguments is:
+
+    + `node` is the subtree node
+    + `child` is a string representing the child property of node
+
+    `filter` should return a truthy value if `node[child]` should be augmented, or a falsey value if it should be skipped.
+    
 
 **Returns** A function `ancestor` for answering `ancestor` queries on `tree`
 
