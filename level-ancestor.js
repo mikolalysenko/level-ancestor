@@ -10,7 +10,7 @@ function LadderEntry(ladder, offset) {
   this.offset = offset
 }
 
-function preprocessTreeLevelAncestor(root, filter) {
+function preprocessTreeLevelAncestor(root, childrenOf) {
   var jumpTable
 
   function rebuildLevelAncestor() {
@@ -24,15 +24,22 @@ function preprocessTreeLevelAncestor(root, filter) {
       nodes.push(node)
       parents.push(parent)
       depths.push([depth, idx])
-      var keys = Object.keys(node)
-      for(var i=0; i<keys.length; ++i) {
-        var id = keys[i]
-        var child = node[id]
-        if((typeof child === "object") && (child !== null)) {
-          if(filter && !filter(node, id)) {
-            continue
+      if(childrenOf) {
+        var children = childrenOf(node)
+        for(var i=0; i<children.length; ++i) {
+          var child = children[i]
+          if((typeof child === "object") && (child !== null)) {
+            visit(child, idx, depth+1)
           }
-          visit(child, idx, depth+1)
+        }
+      } else {
+        var keys = Object.keys(node)
+        for(var i=0; i<keys.length; ++i) {
+          var id = keys[i]
+          var child = node[id]
+          if((typeof child === "object") && (child !== null)) {
+            visit(child, idx, depth+1)
+          }
         }
       }
     }

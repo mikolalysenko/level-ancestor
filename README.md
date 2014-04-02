@@ -35,17 +35,15 @@ npm install level-ancestor
 
 # API
 
-### `var ancestor = require("level-ancestor")(tree[,filter])`
+### `var ancestor = require("level-ancestor")(tree[,childrenOf])`
 Creates an ancestor query data structure for the given JSON tree
 
 * `tree` is the root of a tree-like JSON object
-* `filter(node,child)` is an optional function, which if passed determines which subtrees the augmentation is applied to.  The interpretation of these arguments is:
+* `childrenOf(node)` is an optional function which returns an array of children of `node`
 
     + `node` is the subtree node
-    + `child` is a string representing the child property of node
 
-    `filter` should return a truthy value if `node[child]` should be augmented, or a falsey value if it should be skipped.
-    
+    `childrenOf` should return an array of all possible children of node
 
 **Returns** A function `ancestor` for answering `ancestor` queries on `tree`
 

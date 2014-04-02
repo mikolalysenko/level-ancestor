@@ -32,11 +32,18 @@ tape("level-ancestor", function(t) {
     }
   }
 
+  function defaultChildrenOf(node) {
+    return Object.keys(node).map(function(id) {
+      return node[id]
+    })
+  }
+
   function verifyTree(tree) {
     var ancestor = preprocessTree(tree)
     verifyQuery(tree, ancestor)
     ancestor.rebuild()
     verifyQuery(tree, ancestor)
+    verifyQuery(tree, preprocessTree(tree, defaultChildrenOf))
   }
 
   verifyTree({
