@@ -1,6 +1,6 @@
 {
   "name": "level-ancestor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Finds the kth ancestor of a node in a JSON tree",
   "main": "level-ancestor.js",
   "directories": {
@@ -30,7 +30,7 @@
   "homepage": "https://github.com/mikolalysenko/level-ancestor",
   "dependencies": {
     "weakmap": "0.0.6",
-    "bit-twiddle": "0.0.2"
+    "bit-twiddle": "^1.0.1"
   },
   "devDependencies": {
     "tape": "^2.12.0"
